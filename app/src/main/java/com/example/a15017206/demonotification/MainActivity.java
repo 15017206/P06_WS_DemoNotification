@@ -24,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btnNotify1 = (Button) findViewById(R.id.btnNotify1);
+        btnNotify2 = (Button) findViewById(R.id.btnNotify2);
 
         btnNotify1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,MainActivity.class);
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
 
-                PendingIntent pIntent = PendingIntent.getActivity ( MainActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent pIntent = PendingIntent.getActivity(MainActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
                 // Build notification
                 Notification.Builder builder = new Notification.Builder(MainActivity.this);
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setAutoCancel(true);
 
                 //Adding sound to the notification
-                Uri uri= RingtoneManager.getDefaultUri
+                Uri uri = RingtoneManager.getDefaultUri
                         (RingtoneManager.TYPE_NOTIFICATION);
                 builder.setSound(uri);
 
@@ -57,6 +58,46 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        btnNotify2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+
+                PendingIntent pIntent = PendingIntent.getActivity (MainActivity.this, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+                Notification.BigTextStyle bigText = new Notification.BigTextStyle();
+                bigText.bigText(" Lorem ipsum dolor sit amet, \n consectetur adipiscing elit. Pellentesque porttitor facilisis ipsum, in consectetur elit tincidunt ac. Donec pretium sed libero sit amet ultrices. In sit amet venenatis lectus, nec malesuada nisl. Mauris ac iaculis nisi. Maecenas quam ex, dictum quis dapibus sit amet, tempor nec tortor. In hac habitasse platea dictumst. Morbi non eleifend orci. Praesent nulla sem, facilisis sit amet odio sit amet, ultricies rutrum nulla. Proin risus odio, pulvinar vel lorem non, commodo tristique elit. Morbi mi mauris, commodo sed ex nec, congue cursus justo. Phasellus ligula ipsum, convallis vitae dolor vel, sollicitudin fermentum mauris. Aliquam egestas nisl dolor, ut efficitur neque sagittis a. Donec malesuada placerat libero ac hendrerit. Nam non erat volutpat, sagittis neque ac, gravida tortor. ");
+                bigText.setBigContentTitle("Big Text – Long Content.");
+                bigText.setSummaryText("Reflection Journal?");
+
+
+
+
+                // Build notification
+                Notification.Builder builder = new Notification.Builder(MainActivity.this);
+                builder.setContentTitle("Amazing Offer!");
+                builder.setContentText("Subject");
+                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setContentIntent(pIntent);
+                builder.setStyle(bigText);
+                builder.setAutoCancel(true);
+                builder.setPriority(Notification.PRIORITY_MAX);
+
+                Uri uri= RingtoneManager.getDefaultUri
+                        (RingtoneManager.TYPE_NOTIFICATION);
+                builder.setSound(uri);
+
+                Notification n = builder.build();
+
+                NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                // This replaces the existing notification with the same ID
+                notificationManager.notify(notificationID, n);
+                finish();
+            }
+        });
+
 
     }
 }
